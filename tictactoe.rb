@@ -6,8 +6,19 @@ class Player
      @marker = marker    
  end
 
- def turn(position)
- 	 Board.update(position,@marker)
+ def turn(position=-1)
+ 	
+ 	
+		 print "#{name}, choose a position to place your marker: "
+		 position = gets.chomp.to_i
+		 while Board.checkConflict(position)
+		 	print "#{name}, that position is taken, choose another: "
+		 	position = gets.chomp.to_i
+ 	 	 	
+ 	 		end
+ 	 		Board.update(position,@marker)
+
+ 	
  end
 
 end
@@ -26,6 +37,7 @@ class Board
    puts "#{@@position[6]} #{@@position[7]} #{@@position[8]}"
    puts "---------------"
  end 
+
  @@winner = false
  def self.winner
    case 
@@ -40,6 +52,11 @@ class Board
    end
    return @@winner
  end
+
+ def self.checkConflict(position)
+ 	["x","o"].include? @@position[position]
+ end
+
 end
 
 player1 = Player.new("Dom","x")
@@ -48,14 +65,10 @@ player2 = Player.new("Cora","o")
 Board.display
 
 while Board.winner == false
-	print "Player 1, choose a position to place your marker: "
-	input = gets.chomp
-	player1.turn(input.to_i)
+	player1.turn
 	Board.display
 	next if Board.winner == true
-	print "Player 2, choose a position to place your marker: "
-	input = gets.chomp
-	player2.turn(input.to_i)
+	player2.turn
 	Board.display
 end
 
