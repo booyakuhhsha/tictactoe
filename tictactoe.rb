@@ -7,20 +7,14 @@ class Player
  end
 
  def turn(position=-1)
- 	
- 	
-		 print "#{name}, choose a position to place your marker: "
-		 position = gets.chomp.to_i
-		 while Board.checkConflict(position)
-		 	print "#{name}, that position is taken, choose another: "
-		 	position = gets.chomp.to_i
- 	 	 	
- 	 		end
- 	 		Board.update(position,@marker)
-
- 	
+   print "#{name}, choose a position to place your marker: "
+   position = gets.chomp.to_i
+   while Board.checkConflict(position)
+     print "#{name}, that position is taken, choose another: "
+	 position = gets.chomp.to_i
+   end
+   Board.update(position,@marker)
  end
-
 end
 
 class Board
@@ -65,10 +59,12 @@ player2 = Player.new("Cora","o")
 Board.display
 
 while Board.winner == false
-	player1.turn
-	Board.display
-	next if Board.winner == true
-	player2.turn
-	Board.display
+  player1.turn
+  Board.display
+  puts "#{player1.name} you are the winner!!!" if Board.winner
+  next if Board.winner == true
+  player2.turn
+  Board.display
+  puts "#{player2.name} you are the winner!!!" if Board.winner
 end
 
